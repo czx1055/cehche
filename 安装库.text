@@ -1,0 +1,47 @@
+https://url.cn/T2HyZNjE
+建议用腾讯云服务器挂 别踩坑了
+
+注意test.cfg  是开服监控的配置文件 请勿删除  在bot.py一个文件夹
+.env.prod里面设置两个参数
+FASTAPI_RELOAD=true
+COMMAND_START=["/", ""]      
+就是不加口令也能发起的意思   不然你发日常 开服这些都没有用哦
+.env.dev里面也写着  刚才我又忘了 每次重新搭建就忘了 你们也是
+以上内容都配置好了
+
+python.exe -m pip install --upgrade pip
+
+升级pip最新版
+下面是你要做的
+
+1,第一步安装python 3.8以上
+2，安装nb-cli
+pip install nb-cli
+
+3，安装下面的依赖
+
+pip install configobj
+pip install Beautifulsoup4
+
+pip install requests
+
+定时任务安装模块
+nb plugin install nonebot_plugin_apscheduler
+gocq启动网页版
+nb plugin install nonebot-plugin-gocqhttp
+
+以上都不用安装 ,装个python 直接双击我给的包 就行 比较快
+  gocq登录地址     http://127.0.0.1:8080/go-cqhttp/
+
+安装完定时器会报错 删除下面的这个export的引入然后注释掉下面这行
+D:\Program Files\Python310\Lib\site-packages\nonebot_plugin_apscheduler\__init__.py
+看目录下面的 安装库图1.png
+#export().scheduler = scheduler
+
+pip install pyppeteer   #浏览器截图支持模块 
+
+pip install ffmpeg
+
+pip install ffmpy
+
+最后启动命令 nb run
