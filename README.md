@@ -4,6 +4,7 @@
 QQ群交流1667910
 
 git clone https://github.com/czx1055/cehche.git
+
 输入
 pip install -r requirements.txt
 安装环境依赖
