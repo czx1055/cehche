@@ -1,5 +1,6 @@
 一个剑网3机器人 车哥制作
-
+支持 日常 物价  金价 攻略  沙盘 开服 维护公告 等等功能
+加入了gpt对话@特机器人就可以了。
 QQ群交流1667910
 
 git clone https://github.com/czx1055/cehche.git
