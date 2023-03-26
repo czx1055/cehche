@@ -17,7 +17,7 @@ gocq启动网页版
 nb plugin install nonebot-plugin-gocqhttp
 
 
-然后在安装项目
+输入 nb run 启动项目
 
 ![image](https://user-images.githubusercontent.com/128042750/227760263-72d9c5e2-00ea-42f0-a656-c9d8c482e0c1.png)
 
