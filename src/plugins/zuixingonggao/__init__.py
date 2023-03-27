@@ -67,18 +67,18 @@ async def zuixingonggao():
         
 
         if version == logo:
-            print("公告未更新")
-        elif version > logo:
-            print("公告更新")
+            print(logo+"公告未更新")
+        elif version != logo:
+            print(logo+"公告更新")
             config["gonggao"]["id"] = version
             config.write()
             soup = BeautifulSoup(response.text, 'html.parser')
             print(soup.text)
             params = {'prompt': "帮我把下面的内容概述一下："+soup.text}
-            url = "http://chat.dl-100.cn/api/chat-process"
+            url = "http://app.aipiaxi.cn/get_responses?content=帮我把下面的内容概述一下："+soup.text
             
             
-            response = requests.get(url,params=params).json()
+            response = requests.get(url).json()
             xx = response['response'] 
             bot = get_bot()
             group_list = await bot.get_group_list()
@@ -88,7 +88,7 @@ async def zuixingonggao():
                     if is_group_muted(group_id) != True:
                         await bot.call_api("send_msg",group_id=group_id, message=xx)
                         
-                    await asyncio.sleep(60.0)    
+                        
 
 
             
