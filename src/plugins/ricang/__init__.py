@@ -105,58 +105,101 @@ async def _(bot: Bot, event: GroupMessageEvent):
 
 
 
-generate_page = on_command("测试",priority=1)
+generate_page = on_command("余额查询",priority=1)
 
 
 @generate_page.handle()
 async def handle_generate_page(bot: Bot, event: GroupMessageEvent, state: T_State):
     # 获取图片链接
-    template = Template(
-        "<html><body><h1>Hello, {{ name }}!</h1></body></html>"
-    )
-    context = {"name": "world"}
-    # 将参数传入模板中
-    if "name" in state:  # 判断 state 字典中是否存在键名为 "name" 的键值对。
-        # 如果存在，则将该键对应的值赋值给 context 字典中的 "name" 键对应的值。
-        context["name"] = state["name"]
-    html = template.render(**context)
-    browser = await launch()
-    page = await browser.newPage()
-    await page.setContent(html)
-    await page.screenshot({'path': 'ces.png', 'fullPage': True})
-    await browser.close()
-    with open("ces.png", "rb") as f:
-        img = f.read()
-    mes = MessageSegment.image(img)
-    await bot.send(event=event, message=mes)
+    
+    url = 'http://chat.dl-100.cn/api/config'
+    headers = {
+        'Connection': 'keep-alive',
+        'Accept': 'application/json, text/plain, */*',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36',
+        'Content-Type': 'application/json',
+        'Origin': 'http://chat.dl-100.cn',
+        'Referer': 'http://chat.dl-100.cn/',
+        'Accept-Language': 'zh-CN,zh;q=0.9',
+        'Cookie': 'Hm_lvt_127767e3d675609c895c52e7b8dbbc4a=1679922450,1679922602,1679928835,1679980273; Hm_lpvt_127767e3d675609c895c52e7b8dbbc4a=1679984138'
+    }
+    data = '{}'
+
+    response = requests.post(url, headers=headers, data=data, verify=False).json()['data']['balance']
+
+    print(response)
+    await bot.send(event=event, message="当前chatgpt余额："+response+"美元")
 
 
 day_anins = on_command("日常",priority=98)
-
 
 @day_anins.handle()
 async def _(bot: Bot, event: GroupMessageEvent):
    
 
     t = time.gmtime()
-    ricang = requests.get('https://cms.jx3box.com/api/cms/game/daily?date=' +
-                          time.strftime("%Y-%m-%d", t)).json()['data']
+    ricang = requests.get('http://app.aipiaxi.cn/ricang')
+    if ricang.status_code == 200:
+        tdmj = ricang.json()['tdmj']
+        ggrw = ricang.json()['ggrw']
+        mijing = ricang.json()['mijing']
+        dazhan = ricang.json()['dazhan']
+        zhenyin = ricang.json()['zhenyin']
+        zhanchangshousheng = ricang.json()['zhanchangshousheng']
 
-    dz = []
-    for i in ricang:
-        dz.append(i['activity_name'])
-    dazhan = dz[0]
-    strinfo = re . compile('大战！')
-    zhanchang = dz[1]
-    strinfo1 = re . compile('战场-')
-    zhenyingricang = dz[2]
-    strinfo2 = re . compile('战！')
-    a = strinfo.sub('  ', dazhan)
-    b = strinfo1.sub('', zhanchang)
-    c = strinfo2.sub('', zhenyingricang)
+        await bot.send(event=event, message='今天是' + time.strftime("%Y-%m-%d", t) + '\n'  + dazhan + '\n' + '战场首胜：'+zhanchangshousheng + '\n' + '阵营日常：' + zhenyin+ '\n' + '团队秘境：' + tdmj+ '\n' + '公共任务：' + ggrw+ '\n' + '秘境任务：' + mijing )
+    else:
+       await bot.send(event=event, message="通知管理员更新推栏token")
+
+
+    
+
+    
+    # dazhan = dz[0]
+    # strinfo = re . compile('大战！')
+    # zhanchang = dz[1]
+    # strinfo1 = re . compile('战场-')
+    # zhenyingricang = dz[2]
+    # strinfo2 = re . compile('战！')
+    # a = strinfo.sub('  ', dazhan)
+    # b = strinfo1.sub('', zhanchang)
+    # c = strinfo2.sub('', zhenyingricang)
     # await   day_anins.finish(Message( '今天是'+ time.strftime("%Y-%m-%d",t) + '\n' + '大战:' +a + '\n' + '战场首胜：'+b+ '\n' + '阵营日常：'+c)      + '\n' + '行侠·楚州：' + title + '\n' + '福源宠物：' + chongwu  + '\n' + '园宅会赛：' + zydi)
 
-    await bot.send(event=event, message='今天是' + time.strftime("%Y-%m-%d", t) + '\n' + '大战:' + a + '\n' + '战场首胜：'+b + '\n' + '阵营日常：' + c)
+    #await bot.send(event=event, message='今天是' + time.strftime("%Y-%m-%d", t) + '\n' + '大战:' + a + '\n' + '战场首胜：'+b + '\n' + '阵营日常：' + c)
+
+
+
+
+
+
+
+
+
+
+# @day_anins.handle()
+# async def _(bot: Bot, event: GroupMessageEvent):
+   
+
+#     t = time.gmtime()
+#     ricang = requests.get('https://cms.jx3box.com/api/cms/game/daily?date=' +
+#                           time.strftime("%Y-%m-%d", t)).json()['data']
+
+#     dz = []
+#     for i in ricang:
+#         dz.append(i['activity_name'])
+#     dazhan = dz[0]
+#     strinfo = re . compile('大战！')
+#     zhanchang = dz[1]
+#     strinfo1 = re . compile('战场-')
+#     zhenyingricang = dz[2]
+#     strinfo2 = re . compile('战！')
+#     a = strinfo.sub('  ', dazhan)
+#     b = strinfo1.sub('', zhanchang)
+#     c = strinfo2.sub('', zhenyingricang)
+#     # await   day_anins.finish(Message( '今天是'+ time.strftime("%Y-%m-%d",t) + '\n' + '大战:' +a + '\n' + '战场首胜：'+b+ '\n' + '阵营日常：'+c)      + '\n' + '行侠·楚州：' + title + '\n' + '福源宠物：' + chongwu  + '\n' + '园宅会赛：' + zydi)
+
+#     await bot.send(event=event, message='今天是' + time.strftime("%Y-%m-%d", t) + '\n' + '大战:' + a + '\n' + '战场首胜：'+b + '\n' + '阵营日常：' + c)
 
 my_dict = {'唯我独尊': '1', '青梅煮酒': '2', '大唐万象': '3', '天鹅坪': '4', '破阵子': '5', '飞龙在天': '6', '斗转星移': '7', '龙争虎斗': '8', '长安城': '9', '蝶恋花': '10',
            '梦江南': '11', '剑胆琴心': '12', '幽月轮': '13', '绝代天骄': '14', '乾坤一掷': '15', '缘起稻香': '16', '梦回长安': '17', '天宝盛世': '18', '唯满侠': '1', '双梦': '11', '横刀断浪': '19'}
