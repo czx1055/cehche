@@ -3,6 +3,7 @@
 加入了gpt对话@特机器人就可以了。
 QQ群交流1667910
 
+安装视频教程  https://www.aipiaxi.cn/index.php/2024/12/26/816/
 git clone https://github.com/czx1055/cehche.git
 
 输入
